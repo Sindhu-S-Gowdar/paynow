@@ -81,6 +81,8 @@ router.post("/capture-order/:orderId", async (req, res) => {
     );
 
     const captureData = await captureRes.json();
+    console.log("Capture response:", captureData);
+
     if (captureData.status === "COMPLETED") {
       await Order.findOneAndUpdate(
         { paypalOrderId: req.params.orderId },

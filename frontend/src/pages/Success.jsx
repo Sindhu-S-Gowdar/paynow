@@ -1,17 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useSearchParams, Link } from "react-router-dom";
 import { captureOrder } from "../api.js";
 
 export default function Success() {
-  const [searchParams] = useSearchparams();
+  const [searchParams] = useSearchParams();
   const token = searchParams.get("token"); //this is the orderId PayPal sends back
   const [status, setStatus] = useState("capturing");
+  const hasRun = useRef(false);
 
   useEffect(() => {
     if (!token) {
       setStatus("unknown");
       return;
     }
+    if (hasRun.current) return; // skips the second StrictMode call
+    hasRun.current = true;
+
     captureOrder(token)
       .then((data) => setStatus(data.status))
       .catch(() => setStatus("error"));

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getOrders } from "../api.js";
 
 export default function Orders() {
-  const [orders, setOrders] = usestate([]);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     getOrders().then(setOrders);
