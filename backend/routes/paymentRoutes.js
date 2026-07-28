@@ -97,7 +97,7 @@ router.post("/capture-order/:orderId", async (req, res) => {
 
 //GET all the orders( order history)
 router.get("/orders", async (req, res) => {
-  const orders = (await Order.find()).sort({ createdAt: -1 });
+  const orders = await Order.find().sort({ createdAt: -1 });
   res.json(orders);
 });
 
