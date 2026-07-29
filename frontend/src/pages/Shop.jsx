@@ -36,45 +36,39 @@ export default function Shop() {
 
   return (
     <div>
-      <h2>Shop</h2>
+      <div className="page-header">
+        <h1>Shop</h1>
+        <p>A few essentials, checkout powered by PayPal.</p>
+      </div>
+
       <input
+        className="email-field"
         type="email"
-        placeholder="Enter your email"
+        placeholder="you@example.com"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <div className="error-banner">{error}</div>}
 
-      <div
-        style={{
-          display: "flex",
-          gap: "16px",
-          flexWrap: "wrap",
-          marginTop: "20px",
-        }}
-      >
+      <div className="product-grid">
         {products.map((p) => (
-          <div
-            key={p._id}
-            style={{
-              border: "1px solid #ccc",
-              padding: "16px",
-              width: "200px",
-            }}
-          >
-            <img src={p.image} alt={p.name} style={{ width: "100%" }} />
-            <h3>{p.name}</h3>
-            <p>{p.description}</p>
-            <p>
-              <strong>₹{p.price}</strong>
-            </p>
-            <button
-              onClick={() => handleBuy(p._id)}
-              disabled={loadingId === p._id}
-            >
-              {loadingId === p._id ? "Redirecting..." : "Buy Now"}
-            </button>
+          <div className="product-card" key={p._id}>
+            <img className="product-image" src={p.image} alt={p.name} />
+            <div className="product-body">
+              <div className="product-name">{p.name}</div>
+              <p className="product-desc">{p.description}</p>
+              <div className="product-footer">
+                <span className="product-price">₹{p.price}</span>
+                <button
+                  className="buy-btn"
+                  onClick={() => handleBuy(p._id)}
+                  disabled={loadingId === p._id}
+                >
+                  {loadingId === p._id ? "Redirecting…" : "Buy now"}
+                </button>
+              </div>
+            </div>
           </div>
         ))}
       </div>

@@ -21,22 +21,33 @@ export default function Success() {
       .catch(() => setStatus("error"));
   }, [token]);
 
+  const isSuccess = status === "COMPLETED";
+  const isLoading = status === "capturing";
+
   return (
-    <div>
-      {status === "capturing" && <p>Finalising your payment...</p>}
-      {status === "COMPLETED" && (
+    <div className="status-card">
+      {isLoading && <p>Finalizing your payment…</p>}
+
+      {!isLoading && (
         <>
-          <h2>Payment Successful!!</h2>
-          <p>Your order has been confirmed.</p>
+          <div className={`status-icon ${isSuccess ? "success" : "error"}`}>
+            {isSuccess ? "✓" : "!"}
+          </div>
+          <h2>
+            {isSuccess
+              ? "Payment successful"
+              : `Payment ${status.toLowerCase()}`}
+          </h2>
+          <p>
+            {isSuccess
+              ? "Your order has been confirmed."
+              : "Something may have gone wrong — check your order history."}
+          </p>
+          <Link to="/" className="back-link">
+            Back to shop
+          </Link>
         </>
       )}
-      {status !== "capturing" && status !== "COMPLETED" && (
-        <>
-          <h2>Payment status: {status}</h2>
-          <p>Something may have gone wrong - check your order history.</p>
-        </>
-      )}
-      <Link to="/">Back to shop</Link>
     </div>
   );
 }
